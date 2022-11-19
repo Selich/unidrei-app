@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.5.10",
     "@capacitor/app": "4.1.1",
     "@capacitor/core": "4.5.0",
     "@capacitor/haptics": "4.1.0",
@@ -19,8 +20,11 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
+    "craco": "^0.0.3",
     "history": "^4.9.0",
     "ionicons": "^6.0.3",
+    "apollo-upload-client": "^17.0.0",
+    "axios": "^0.26.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^5.2.0",
@@ -42,7 +46,7 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "export PORT=8100 && GENERATE_SOURCEMAP=false craco start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
     "eject": "react-scripts eject"
@@ -66,7 +70,12 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "4.5.0"
+    "@capacitor/cli": "4.5.0",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/fragment-matcher": "^3.2.1",
+    "@graphql-codegen/typescript": "^2.4.8",
+    "@graphql-codegen/typescript-operations": "^2.3.5",
+    "@graphql-codegen/typescript-react-apollo": "^3.2.11"
   },
   "description": "An Ionic project"
 }

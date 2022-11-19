@@ -1,0 +1,15 @@
+schema:
+  - http://localhost:3000/graphql
+  - http://localhost:1337/graphql
+overwrite: true
+documents:
+  - src/utils/appServerQueries/*.graphql
+  - src/utils/strapiQueries/*.graphql
+generates:
+  src/generated/graphql-types.tsx:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true

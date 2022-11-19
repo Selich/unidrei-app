@@ -34,6 +34,19 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+// import { createUploadLink } from "apollo-upload-client";
+import React, { createContext } from "react";
+import { setContext } from "@apollo/client/link/context";
+
+/* Theme variables */
+import "./theme/variables.css";
+import {
+    ApolloClient,
+    ApolloProvider,
+    from,
+    InMemoryCache,
+} from "@apollo/client";
+
 setupIonicReact();
 
 const App: React.FC = () => (
