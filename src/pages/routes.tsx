@@ -1,8 +1,9 @@
 import { Redirect, Route } from "react-router-dom";
-import { HOME_SLUG, PAY_SLUG, SHARE_SLUG } from "../constants/router.constants";
+import { HOME_SLUG, PAY_SLUG, SHARE_SLUG, ADMIN_SLUG } from "../constants/router.constants";
 import HomeTab from "./HomeTab/HomeTab";
 import PayTab from "./PayTab/PayTab";
 import ShareTab from "./ShareTab/ShareTab";
+import AdminTab from "./AdminTab/AdminTab";
 import {
     IonRouterOutlet,
     IonTabs,
@@ -25,6 +26,9 @@ export const MainAppRouter: React.FC = () => (
             <IonRouterOutlet>
                 <Route exact path={HOME_SLUG}>
                     <HomeTab />
+                </Route>
+                <Route exact path={ADMIN_SLUG}>
+                    <AdminTab />
                 </Route>
                 <Route exact path={PAY_SLUG}>
                     <PayTab />

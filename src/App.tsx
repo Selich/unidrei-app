@@ -43,12 +43,20 @@ import {
     InMemoryCache,
 } from "@apollo/client";
 import { MainAppRouter } from "./pages/routes";
+// import { createUploadLink } from "apollo-upload-client";
+
+const nestJSClient = new ApolloClient({
+    uri: "http://localhost:3000/graphql",
+    cache: new InMemoryCache(),
+});
 
 setupIonicReact();
 
 const App: React.FC = () => (
     <IonApp>
+            <ApolloProvider client={nestJSClient}>
         <MainAppRouter />
+            </ApolloProvider>
     </IonApp>
 );
 

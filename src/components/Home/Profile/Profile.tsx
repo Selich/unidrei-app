@@ -6,6 +6,7 @@ import {
     IonCardTitle,
 } from "@ionic/react";
 import React, { FC } from "react";
+import { AlgoConnect } from "../../AlgoConnect";
 import "./Profile.css";
 
 interface ProfileProps {}
@@ -28,6 +29,7 @@ export const Profile: FC<ProfileProps> = () => (
                     <IonCardSubtitle className={"profile-content"}>
                         ID: kalsdjf92-23948723891
                     </IonCardSubtitle>
+                    <AlgoConnect/>
                 </div>
             </IonCardContent>
         </IonCard>

@@ -1,0 +1,3 @@
+mutation fileUpload($input:PrivateDocumentInput!){
+    fileUpload(input:$input)
+}

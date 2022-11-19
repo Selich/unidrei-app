@@ -136,6 +136,7 @@ export async function checkBalance() {
 
     let accountInfo = await algodClient.accountInformation(myAccount.addr).do();
     console.log("Account balance: %d microAlgos", accountInfo.amount);
+    return accountInfo
 }
 
 
@@ -143,9 +144,9 @@ export async function createNFT() {
 
 
     try {
-        const algodToken = '2f3203f21e738a1de6110eba6984f9d03e5a95d7a577b34616854064cf2c0e7b';
-        const algodServer = 'https://academy-algod.dev.aws.algodev.network';
-        const algodPort = 443;
+        const algodToken = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        const algodServer = "http://localhost";
+        const algodPort = 4001;
         const alice = {
             addr: accountAddress,
             sk: accountSK
