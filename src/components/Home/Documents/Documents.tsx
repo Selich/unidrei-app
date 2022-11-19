@@ -77,10 +77,18 @@ const DocumentModal: FC<any> = ({ onDismiss }: { onDismiss: () => void }) => {
                 <div className="document-modal-content">
                     <h4>The selected document is locked. Mint it to unlock.</h4>
                     <div className={"document-modal-container-btn"}>
-                        <IonButton onClick={() => onDismiss()}>
+                        <IonButton
+                            onClick={() => onDismiss()}
+                            className={"document-modal-btn"}
+                        >
                             Cancel
                         </IonButton>
-                        <IonButton onClick={() => onDismiss()}>Mint</IonButton>
+                        <IonButton
+                            onClick={() => onDismiss()}
+                            className={"document-modal-btn"}
+                        >
+                            Mint
+                        </IonButton>
                     </div>
                 </div>
             </IonContent>
