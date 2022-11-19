@@ -52,7 +52,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\"",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" \"{src,apps,libs,test}/**/*.tsx\" --fix"
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" \"{src,apps,libs,test}/**/*.tsx\" --fix",
     "generate": "graphql-codegen"
   },
   "eslintConfig": {
@@ -82,7 +82,7 @@
     "@graphql-codegen/typescript-react-apollo": "^3.2.11",
     "@graphql-codegen/typescript-resolvers": "^2.7.7",
     "@types/apollo-upload-client": "^17.0.0",
-    "raw-loader": "^4.0.2"
+    "raw-loader": "^4.0.2",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1",
