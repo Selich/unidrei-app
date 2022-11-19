@@ -16,9 +16,10 @@ import {
     useIonModal,
 } from "@ionic/react";
 import {
-    documentLock as DocumentLockIcon,
-    document as DocumentIcon,
     walletOutline as WalletIcon,
+    warning as WarningIcon,
+    shieldCheckmark as ShieldCheckMarkIcon,
+    globe as GlobeIcon,
 } from "ionicons/icons";
 
 import "./Document.css";
@@ -27,7 +28,7 @@ import { ConnectWallet } from "../../Login/ConnectWallet";
 interface DocumentsProps {}
 interface DocumentCardProps {
     title: string;
-    locked: boolean;
+    state: "STATE_REQUEST" | "STATE_PRIVATE" | "STATE_MINTED";
 }
 
 const documentsList = [
@@ -66,7 +67,7 @@ export const Documents: FC<DocumentsProps> = () => {
                         style={{ padding: 0 }}
                         onClick={() => present()}
                     >
-                        <DocumentCard title={document} locked={true} />
+                    <DocumentCard title={document} state={"STATE_REQUEST"} />
                     </IonItemDivider>
                 ))}
         </div>
@@ -76,12 +77,24 @@ export const Documents: FC<DocumentsProps> = () => {
 const DocumentCard: FC<DocumentCardProps> = (props) => {
     return (
         <IonCard className={"document-container"}>
-            {props.locked ? (
-                <IonIcon icon={DocumentLockIcon} className={"document-icon"} />
+            {props.state === "STATE_REQUEST" ? (
+                <IonIcon icon={WarningIcon} className={"document-icon"} />
+            ) : props.state === "STATE_PRIVATE" ? (
+                <IonIcon
+                    icon={ShieldCheckMarkIcon}
+                    className={"document-icon"}
+                />
             ) : (
-                <IonIcon icon={DocumentIcon} className={"document-icon"} />
+                <IonIcon icon={GlobeIcon} className={"document-icon"} />
             )}
             <IonTitle>{props.title}</IonTitle>
+            {props.state === "STATE_REQUEST" ? (
+                <IonButton>Request Document</IonButton>
+            ) : props.state === "STATE_PRIVATE" ? (
+                <IonButton>Mint</IonButton>
+            ) : (
+                <IonButton>Share</IonButton>
+            )}
         </IonCard>
     );
 };
@@ -98,10 +111,18 @@ const DocumentModal: FC<any> = ({ onDismiss }: { onDismiss: () => void }) => {
                 <div className="document-modal-content">
                     <h4>The selected document is locked. Mint it to unlock.</h4>
                     <div className={"document-modal-container-btn"}>
-                        <IonButton onClick={() => onDismiss()}>
+                        <IonButton
+                            onClick={() => onDismiss()}
+                            className={"document-modal-btn"}
+                        >
                             Cancel
                         </IonButton>
-                        <IonButton onClick={() => onDismiss()}>Mint</IonButton>
+                        <IonButton
+                            onClick={() => onDismiss()}
+                            className={"document-modal-btn"}
+                        >
+                            Mint
+                        </IonButton>
                     </div>
                 </div>
             </IonContent>
@@ -111,5 +132,5 @@ const DocumentModal: FC<any> = ({ onDismiss }: { onDismiss: () => void }) => {
 
 DocumentCard.defaultProps = {
     title: "Default Name",
-    locked: true,
+    state: "STATE_REQUEST",
 };
