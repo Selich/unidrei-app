@@ -11,6 +11,7 @@
     "@capacitor/status-bar": "4.1.0",
     "@ionic/react": "^6.0.0",
     "@ionic/react-router": "^6.0.0",
+    "@randlabs/myalgo-connect": "^1.4.1",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^12.6.3",
@@ -20,11 +21,12 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
+    "algosdk": "^1.23.2",
+    "apollo-upload-client": "^17.0.0",
+    "axios": "^0.26.1",
     "craco": "^0.0.3",
     "history": "^4.9.0",
     "ionicons": "^6.0.3",
-    "apollo-upload-client": "^17.0.0",
-    "axios": "^0.26.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^5.2.0",
@@ -75,7 +77,8 @@
     "@graphql-codegen/fragment-matcher": "^3.2.1",
     "@graphql-codegen/typescript": "^2.4.8",
     "@graphql-codegen/typescript-operations": "^2.3.5",
-    "@graphql-codegen/typescript-react-apollo": "^3.2.11"
+    "@graphql-codegen/typescript-react-apollo": "^3.2.11",
+    "raw-loader": "^4.0.2"
   },
   "description": "An Ionic project"
 }
