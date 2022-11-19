@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Profile } from "./Profile/Profile";
-import Documents from "./Documents/Documents";
+import { Documents } from "./Documents/Documents";
 
 interface HomeProps {}
 

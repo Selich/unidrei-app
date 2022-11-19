@@ -1,0 +1,9 @@
+.document-container {
+    display: flex;
+    padding: 10px;
+}
+
+.document-icon {
+    height: 50px;
+    width: 50px;
+}
