@@ -5,23 +5,19 @@
   "testLibrary": "Testing Library",
   "component": {
     "default": {
-      "customTemplates": {
-        "story": "templates/component/TemplateName.stories.tsx"
-      },
+      "customTemplates": {},
       "path": "src/components",
       "withStyle": false,
       "withTest": true,
-      "withStory": true,
+      "withStory": false,
       "withLazy": false
     },
     "page": {
-      "customTemplates": {
-        "story": "templates/component/TemplateName.stories.tsx"
-      },
+      "customTemplates": {},
       "path": "src/pages",
       "withStyle": false,
       "withTest": true,
-      "withStory": true,
+      "withStory": false,
       "withLazy": false
     }
   }
