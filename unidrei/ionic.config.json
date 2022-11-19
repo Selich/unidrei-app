@@ -1,0 +1,7 @@
+{
+  "name": "unidrei",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
