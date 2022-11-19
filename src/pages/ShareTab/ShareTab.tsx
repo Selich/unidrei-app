@@ -5,7 +5,6 @@ import {
     IonTitle,
     IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../../components/ExploreContainer/ExploreContainer";
 import "./ShareTab.css";
 
 const ShareTab: React.FC = () => {
@@ -22,7 +21,6 @@ const ShareTab: React.FC = () => {
                         <IonTitle size="large">Tab 3</IonTitle>
                     </IonToolbar>
                 </IonHeader>
-                <ExploreContainer name="Tab 3 page" />
             </IonContent>
         </IonPage>
     );

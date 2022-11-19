@@ -51,7 +51,8 @@
     "start": "export PORT=1337 && GENERATE_SOURCEMAP=false craco start",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'",
-    "eject": "react-scripts eject",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" \"{src,apps,libs,test}/**/*.tsx\" --fix"
     "generate": "graphql-codegen"
   },
   "eslintConfig": {
@@ -82,6 +83,12 @@
     "@graphql-codegen/typescript-resolvers": "^2.7.7",
     "@types/apollo-upload-client": "^17.0.0",
     "raw-loader": "^4.0.2"
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "@typescript-eslint/eslint-plugin": "^5.34.0",
+    "@typescript-eslint/parser": "^5.34.0",
+    "eslint": "^8.22.0"
   },
   "description": "An Ionic project"
 }
