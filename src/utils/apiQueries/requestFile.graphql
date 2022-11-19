@@ -1,0 +1,3 @@
+mutation requestFile($input: RequestFileInput!) {
+    requestFile(input: $input)
+}

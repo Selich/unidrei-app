@@ -25,3 +25,11 @@
     flex: 1 1 auto;
     margin-top: 50vh;
 }
+
+.connect-wallet-container {
+    display: flex;
+    flex: 1 1 auto;
+    padding: 50px;
+    margin: 10px;
+    align-items: center;
+}

@@ -1,5 +1,11 @@
 import { Redirect, Route } from "react-router-dom";
-import { HOME_SLUG, PAY_SLUG, SHARE_SLUG, ADMIN_SLUG } from "../constants/router.constants";
+import {
+    HOME_SLUG,
+    PAY_SLUG,
+    SHARE_SLUG,
+    ADMIN_SLUG,
+    LOGIN_SLUG,
+} from "../constants/router.constants";
 import HomeTab from "./HomeTab/HomeTab";
 import PayTab from "./PayTab/PayTab";
 import ShareTab from "./ShareTab/ShareTab";
@@ -19,6 +25,7 @@ import {
     wallet as WalletIcon,
     shareSocial as ShareIcon,
 } from "ionicons/icons";
+import LoginPage from "./LoginPage/LoginPage";
 
 export const MainAppRouter: React.FC = () => (
     <IonReactRouter>
@@ -32,6 +39,9 @@ export const MainAppRouter: React.FC = () => (
                 </Route>
                 <Route exact path={PAY_SLUG}>
                     <PayTab />
+                </Route>
+                <Route exact path={LOGIN_SLUG}>
+                    <LoginPage />
                 </Route>
                 <Route path={SHARE_SLUG}>
                     <ShareTab />

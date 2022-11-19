@@ -1,13 +1,16 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
+import MyAlgoConnect from "@randlabs/myalgo-connect";
 import {
     IonButton,
     IonButtons,
     IonCard,
     IonContent,
+    IonGrid,
     IonHeader,
     IonIcon,
     IonItemDivider,
     IonPage,
+    IonText,
     IonTitle,
     IonToolbar,
     useIonModal,
@@ -15,8 +18,11 @@ import {
 import {
     documentLock as DocumentLockIcon,
     document as DocumentIcon,
+    walletOutline as WalletIcon,
 } from "ionicons/icons";
+
 import "./Document.css";
+import { ConnectWallet } from "../../Login/ConnectWallet";
 
 interface DocumentsProps {}
 interface DocumentCardProps {
@@ -36,18 +42,33 @@ export const Documents: FC<DocumentsProps> = () => {
     const [present, dismiss] = useIonModal(DocumentModal, {
         onDismiss: () => dismiss(),
     });
+    const [wallet, setWallet] = useState<{
+        address: string;
+        sk: string;
+    }>({
+        address: "as",
+        sk: "",
+    });
+
+    useEffect(() => {
+        alert(JSON.stringify(wallet));
+    }, [wallet]);
 
     return (
         <div data-testid="Documents">
-            {documentsList.map((document, index) => (
-                <IonItemDivider
-                    key={index}
-                    style={{ padding: 0 }}
-                    onClick={() => present()}
-                >
-                    <DocumentCard title={document} locked={true} />
-                </IonItemDivider>
-            ))}
+            {!wallet.address && (
+                <ConnectWallet wallet={wallet} setWallet={setWallet} />
+            )}
+            {wallet.address &&
+                documentsList.map((document, index) => (
+                    <IonItemDivider
+                        key={index}
+                        style={{ padding: 0 }}
+                        onClick={() => present()}
+                    >
+                        <DocumentCard title={document} locked={true} />
+                    </IonItemDivider>
+                ))}
         </div>
     );
 };
