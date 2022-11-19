@@ -7,16 +7,16 @@
     "default": {
       "customTemplates": {},
       "path": "src/components",
-      "withStyle": false,
-      "withTest": true,
+      "withStyle": true,
+      "withTest": false,
       "withStory": false,
       "withLazy": false
     },
     "page": {
       "customTemplates": {},
       "path": "src/pages",
-      "withStyle": false,
-      "withTest": true,
+      "withStyle": true,
+      "withTest": false,
       "withStory": false,
       "withLazy": false
     }
