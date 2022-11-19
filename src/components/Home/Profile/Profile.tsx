@@ -12,7 +12,7 @@ interface ProfileProps {}
 
 export const Profile: FC<ProfileProps> = () => (
     <div data-testid="Profile">
-        <IonCard>
+        <IonCard style={{ margin: 0, padding: 0 }}>
             <IonCardContent className={"profile-card-container"}>
                 <img
                     src={"https://picsum.photos/200"}

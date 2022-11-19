@@ -1,6 +1,9 @@
 .document-container {
     display: flex;
+    flex: 1 1 auto;
     padding: 10px;
+    align-items: stretch;
+    text-align: center;
 }
 
 .document-icon {
