@@ -20,11 +20,12 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
+    "apollo-upload-client": "^17.0.0",
+    "axios": "^0.26.1",
     "craco": "^0.0.3",
     "history": "^4.9.0",
     "ionicons": "^6.0.3",
-    "apollo-upload-client": "^17.0.0",
-    "axios": "^0.26.1",
+    "qrcode": "^1.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^5.2.0",
@@ -78,12 +79,13 @@
     "@graphql-codegen/typescript": "^2.4.8",
     "@graphql-codegen/typescript-operations": "^2.3.5",
     "@graphql-codegen/typescript-react-apollo": "^3.2.11",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.7.1",
+    "@types/qrcode": "^1.5.0",
     "@typescript-eslint/eslint-plugin": "^5.34.0",
     "@typescript-eslint/parser": "^5.34.0",
-    "eslint": "^8.22.0"
+    "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1"
   },
   "description": "An Ionic project"
 }

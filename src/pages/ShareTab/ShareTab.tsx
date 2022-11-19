@@ -6,21 +6,20 @@ import {
     IonToolbar,
 } from "@ionic/react";
 import "./ShareTab.css";
+import QRCodeGenerator from "../../components/QRCodeGenerator/QRCodeGenerator";
 
 const ShareTab: React.FC = () => {
     return (
         <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Tab 3</IonTitle>
-                </IonToolbar>
+            <IonHeader className={"ion-text-center"}>
+                <h1>Share your profile</h1>
             </IonHeader>
             <IonContent fullscreen>
-                <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">Tab 3</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
+                <div className={"share-tab-qr-img"}>
+                    <QRCodeGenerator
+                        content={"This is my wallet address yay!!!"}
+                    />
+                </div>
             </IonContent>
         </IonPage>
     );
