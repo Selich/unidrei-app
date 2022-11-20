@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
+import axios from "axios";
 import algosdk from "algosdk";
 import {
     IonButton,
@@ -11,6 +12,7 @@ import {
     IonIcon,
     IonItemDivider,
     IonPage,
+    IonPopover,
     IonText,
     IonTitle,
     IonToolbar,
@@ -21,11 +23,13 @@ import {
     warning as WarningIcon,
     shieldCheckmark as ShieldCheckMarkIcon,
     globe as GlobeIcon,
+    eye as EyeIcon,
 } from "ionicons/icons";
 
 import "./Document.css";
 import { ConnectWallet } from "../../Login/ConnectWallet";
 import {
+    useFileUploadMutation,
     useRequestDocumentMutation,
     useSignMutation,
 } from "../../../generated/graphql-types";
@@ -93,8 +97,11 @@ const DocumentCard: FC<any> = (props) => {
 
     const [requestDocument] = useRequestDocumentMutation({});
     const [sign] = useSignMutation({});
+    const [fileUpload] = useFileUploadMutation();
+    const [info, setInfo] = useState<string | null>(null);
+    const [mintBtn, setMintBtn] = useState<string>("Mint");
 
-    useEffect(() => {}, [props.document, props.documentsList]);
+    useEffect(() => {}, [props.document, props.documentsList, info, mintBtn]);
 
     async function signTransaction() {
         const mparams = {
@@ -159,6 +166,24 @@ const DocumentCard: FC<any> = (props) => {
         props.setDocumentList(temp);
         setState("STATE_PRIVATE");
     };
+
+    const mint = async () => {
+        fileUpload({
+            variables: {
+                input: {
+                    name: "test",
+                    description: "test",
+                    link: "test",
+                },
+            },
+        }).then((res) => {
+            alert("TransactionID: " + JSON.stringify(res.data?.fileUpload));
+            setInfo(res.data?.fileUpload as string);
+
+            setMintBtn("Minted");
+        });
+    };
+
     return (
         <IonCard className={"document-container"}>
             {state === "STATE_REQUEST" ? (
@@ -172,6 +197,23 @@ const DocumentCard: FC<any> = (props) => {
                 <IonIcon icon={GlobeIcon} className={"document-icon"} />
             )}
             <IonTitle>{props.title}</IonTitle>
+            {info && (
+                <>
+                    <IonButton
+                        id="click-trigger"
+                        className={"document-btn"}
+                        fill="clear"
+                        expand="block"
+                    >
+                        {info.slice(0, 14)}...
+                    </IonButton>
+                    <IonPopover trigger="click-trigger" triggerAction="click">
+                        <IonContent class="ion-padding">
+                            Transaction ID: {info}
+                        </IonContent>
+                    </IonPopover>
+                </>
+            )}
             {state === "STATE_REQUEST" ? (
                 <IonButton
                     onClick={reqDoc}
@@ -182,16 +224,34 @@ const DocumentCard: FC<any> = (props) => {
                     Request Document
                 </IonButton>
             ) : state === "STATE_PRIVATE" ? (
-                <IonButton
-                    fill="solid"
-                    expand="block"
-                    className={"document-btn"}
-                    onClick={() => {
-                        window.open(props.url, "_blank", "noopener,noreferrer");
-                    }}
-                >
-                    Read
-                </IonButton>
+                <>
+                    <IonButton
+                        disabled={mintBtn !== "Mint"}
+                        expand="block"
+                        fill="solid"
+                        className={"document-btn"}
+                        onClick={() => {
+                            setMintBtn("Minting...");
+                            mint();
+                        }}
+                    >
+                        {mintBtn}
+                    </IonButton>
+                    <IonButton
+                        fill="solid"
+                        expand="block"
+                        className={"document-btn"}
+                        onClick={() => {
+                            window.open(
+                                props.url,
+                                "_blank",
+                                "noopener,noreferrer",
+                            );
+                        }}
+                    >
+                        Read
+                    </IonButton>
+                </>
             ) : (
                 <IonButton className={"document-btn"}>Share</IonButton>
             )}
