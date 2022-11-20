@@ -45,6 +45,7 @@ const Admin: FC<AdminProps> = () => {
         <div data-testid="Admin">
             <h1>Admin page</h1>
             <IonButton onClick={checkBalance}>CHECK BALANCE</IonButton>
+            <IonButton onClick={createAccount}>CREATE ACCOUNT</IonButton>
             <IonButton
                 onClick={() =>
                     fileUpload({

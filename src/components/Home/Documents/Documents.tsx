@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
+import algosdk from "algosdk";
 import {
     IonButton,
     IonButtons,
@@ -24,6 +25,7 @@ import {
 
 import "./Document.css";
 import { ConnectWallet } from "../../Login/ConnectWallet";
+import { useRequestDocumentMutation } from "../../../generated/graphql-types";
 
 interface DocumentsProps {}
 interface DocumentCardProps {
@@ -32,49 +34,87 @@ interface DocumentCardProps {
 }
 
 const documentsList = [
-    "Enrollment Certificate",
-    "Transcript Semester 1",
-    "Transcript Semester 2",
-    "Transcript Semester 3",
-    "Overall Performance",
+    { id: 0, name: "Enrollment Certificate", url: "" },
+    { id: 1, name: "Transcript Semester", url: "" },
+    { id: 2, name: "Overall Performance", url: "" },
 ];
 
 export const Documents: FC<DocumentsProps> = () => {
     const [present, dismiss] = useIonModal(DocumentModal, {
         onDismiss: () => dismiss(),
     });
-    const [wallet, setWallet] = useState<{
-        address: string;
-        sk: string;
-    }>({
-        address: "as",
-        sk: "",
-    });
-
-    useEffect(() => {
-        alert(JSON.stringify(wallet));
-    }, [wallet]);
+    const [addresses, setAddresses] = useState<any>(null);
 
     return (
         <div data-testid="Documents">
-            {!wallet.address && (
-                <ConnectWallet wallet={wallet} setWallet={setWallet} />
+            {!addresses && (
+                <ConnectWallet
+                    addresses={addresses}
+                    setAddresses={setAddresses}
+                />
             )}
-            {wallet.address &&
+            {addresses &&
                 documentsList.map((document, index) => (
-                    <IonItemDivider
-                        key={index}
-                        style={{ padding: 0 }}
-                        onClick={() => present()}
-                    >
-                    <DocumentCard title={document} state={"STATE_REQUEST"} />
+                    <IonItemDivider key={index} style={{ padding: 0 }}>
+                        <DocumentCard
+                            addresses={addresses}
+                            title={document.name}
+                            id={document.id}
+                            state={"STATE_REQUEST"}
+                        />
                     </IonItemDivider>
                 ))}
         </div>
     );
 };
 
-const DocumentCard: FC<DocumentCardProps> = (props) => {
+const DocumentCard: FC<any> = (props) => {
+    const myAlgoWallet = new MyAlgoConnect();
+    const algodClient = new algosdk.Algodv2(
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "http://localhost",
+        4001,
+    );
+    const tumAddress =
+        "YBBY6H7QHRYSAFI47WM7OYO2SSPWOKYVCZRKSZS2XACWYZDOKAK3QSLZWI";
+
+    const [requestDocument] = useRequestDocumentMutation({});
+    async function signTransaction() {
+        console.log(props.addresses);
+        try {
+            const params = await algodClient.getTransactionParams().do();
+            const txn = algosdk.makePaymentTxnWithSuggestedParams(
+                props.addresses[0],
+                tumAddress,
+                10,
+                tumAddress,
+                new Uint8Array([1, 2, 2]),
+                params,
+            );
+            console.log("works");
+            const signedTxn = await myAlgoWallet.signTransaction(txn.toByte());
+            const response = await algodClient
+                .sendRawTransaction(signedTxn.blob)
+                .do();
+            console.log(response);
+            return signedTxn;
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    const reqDoc = async () => {
+        const signage = await signTransaction();
+        console.log(signage);
+        // requestDocument({
+        //     variables: {
+        //         input: {
+        //             name: props.id,
+        //             sign: signage,
+        //         },
+        //     },
+        // }).then((res) => {});
+    };
     return (
         <IonCard className={"document-container"}>
             {props.state === "STATE_REQUEST" ? (
@@ -89,7 +129,7 @@ const DocumentCard: FC<DocumentCardProps> = (props) => {
             )}
             <IonTitle>{props.title}</IonTitle>
             {props.state === "STATE_REQUEST" ? (
-                <IonButton>Request Document</IonButton>
+                <IonButton onClick={reqDoc}>Request Document</IonButton>
             ) : props.state === "STATE_PRIVATE" ? (
                 <IonButton>Mint</IonButton>
             ) : (
