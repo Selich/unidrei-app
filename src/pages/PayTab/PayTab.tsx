@@ -9,18 +9,14 @@ import "./PayTab.css";
 
 const PayTab: React.FC = () => {
     return (
-        <IonPage>
+        <IonPage className={"ion-text-center"}>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Tab 2</IonTitle>
+                    <IonTitle>Pay via web3</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">Tab 2</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
+                <h3>Coming soon!</h3>
             </IonContent>
         </IonPage>
     );
