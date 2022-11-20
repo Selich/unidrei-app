@@ -83,12 +83,21 @@ const DocumentCard: FC<any> = (props) => {
         console.log(props.addresses);
         try {
             const params = await algodClient.getTransactionParams().do();
+            console.log({ params });
+            // const txn = algosdk.makePaymentTxnWithSuggestedParams(
+            //     props.addresses[0],
+            //     "MHRESQQ66SAY7IA524HER46UIDNEP6AFLREBGRJSLLLKZ7DWF6D5QOYYUA",
+            //     8,
+            //     undefined,
+            //     new Uint8Array([1, 2, 2, 3, 3, 3]),
+            //     params,
+            // );
             const txn = algosdk.makePaymentTxnWithSuggestedParams(
+                "MHRESQQ66SAY7IA524HER46UIDNEP6AFLREBGRJSLLLKZ7DWF6D5QOYYUA",
                 props.addresses[0],
-                tumAddress,
-                10,
-                tumAddress,
-                new Uint8Array([1, 2, 2]),
+                3 * 1000000,
+                undefined,
+                new Uint8Array([1, 2, 2, 3, 3, 3]),
                 params,
             );
             console.log("works");
@@ -129,7 +138,7 @@ const DocumentCard: FC<any> = (props) => {
             )}
             <IonTitle>{props.title}</IonTitle>
             {props.state === "STATE_REQUEST" ? (
-                <IonButton className={"document-btn"}>
+                <IonButton onClick={reqDoc} className={"document-btn"}>
                     Request Document
                 </IonButton>
             ) : props.state === "STATE_PRIVATE" ? (
