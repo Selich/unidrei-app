@@ -63,7 +63,7 @@ const Admin: FC<AdminProps> = () => {
                                 "http://localhost:8980/v2/transactions/" +
                                     res.data?.fileUpload,
                             )
-                            .then((res) => {
+                            .then((res: any) => {
                                 console.log(res.data);
                                 setInfo(res.data);
                             });
