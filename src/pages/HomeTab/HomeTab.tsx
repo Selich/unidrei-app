@@ -12,7 +12,7 @@ const HomeTab: React.FC = () => {
     return (
         <IonPage>
             <IonHeader className={"ion-text-center"}>
-                <h1>Your Documents</h1>
+                <h1>Documents</h1>
             </IonHeader>
             <IonContent fullscreen>
                 <Home />
