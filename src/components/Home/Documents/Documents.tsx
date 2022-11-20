@@ -118,7 +118,7 @@ const DocumentCard: FC<any> = (props) => {
             );
             const params = await algodClient.getTransactionParams().do();
 
-            const names = '{"firstName":"Amritanshu", "lastName":"Selic"}';
+            const names = '{"firstName":"John", "lastName":"Smith"}';
             const enc = new TextEncoder();
             const note = enc.encode(names);
 

@@ -20,13 +20,13 @@ export const Profile: FC<ProfileProps> = () => (
                 />
                 <div>
                     <IonCardTitle className={"profile-content"}>
-                        Nikola Sikdar
+                        John Smith
                     </IonCardTitle>
                     <IonCardSubtitle className={"profile-content"}>
                         M.Sc. Informatik
                     </IonCardSubtitle>
                     <IonCardSubtitle className={"profile-content"}>
-                        ID: kalsdjf92-23948723891
+                        ID: kalsdjf92-239sfwd3d1
                     </IonCardSubtitle>
                 </div>
             </IonCardContent>
