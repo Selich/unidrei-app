@@ -54,9 +54,9 @@ setupIonicReact();
 
 const App: React.FC = () => (
     <IonApp>
-            <ApolloProvider client={nestJSClient}>
-        <MainAppRouter />
-            </ApolloProvider>
+        <ApolloProvider client={nestJSClient}>
+            <MainAppRouter />
+        </ApolloProvider>
     </IonApp>
 );
 

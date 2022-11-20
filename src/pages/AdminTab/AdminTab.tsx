@@ -5,7 +5,6 @@ import {
     IonTitle,
     IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../../components/ExploreContainer/ExploreContainer";
 import "./AdminTab.css";
 import Admin from "../../components/Admin/Admin";
 
