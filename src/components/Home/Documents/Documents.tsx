@@ -25,7 +25,10 @@ import {
 
 import "./Document.css";
 import { ConnectWallet } from "../../Login/ConnectWallet";
-import { useRequestDocumentMutation } from "../../../generated/graphql-types";
+import {
+    useRequestDocumentMutation,
+    useSignMutation,
+} from "../../../generated/graphql-types";
 
 interface DocumentsProps {}
 interface DocumentCardProps {
@@ -33,17 +36,20 @@ interface DocumentCardProps {
     state: "STATE_REQUEST" | "STATE_PRIVATE" | "STATE_MINTED";
 }
 
-const documentsList = [
-    { id: 0, name: "Enrollment Certificate", url: "" },
-    { id: 1, name: "Transcript Semester", url: "" },
-    { id: 2, name: "Overall Performance", url: "" },
-];
-
 export const Documents: FC<DocumentsProps> = () => {
     const [present, dismiss] = useIonModal(DocumentModal, {
         onDismiss: () => dismiss(),
     });
     const [addresses, setAddresses] = useState<any>(null);
+    const [documentsList, setDocumentsList] = useState<
+        { id: number; name: string; url: string }[]
+    >([
+        { id: 0, name: "Enrollment Certificate", url: "" },
+        { id: 1, name: "Transcript Semester", url: "" },
+        { id: 2, name: "Overall Performance", url: "" },
+    ]);
+
+    useEffect(() => {}, [documentsList]);
 
     return (
         <div data-testid="Documents">
@@ -60,7 +66,15 @@ export const Documents: FC<DocumentsProps> = () => {
                             addresses={addresses}
                             title={document.name}
                             id={document.id}
-                            state={"STATE_REQUEST"}
+                            present={present}
+                            url={document.url}
+                            documentList={documentsList}
+                            setDocumentList={setDocumentsList}
+                            state={
+                                document.url === ""
+                                    ? "STATE_REQUEST"
+                                    : "STATE_PRIVATE"
+                            }
                         />
                     </IonItemDivider>
                 ))}
@@ -70,59 +84,74 @@ export const Documents: FC<DocumentsProps> = () => {
 
 const DocumentCard: FC<any> = (props) => {
     const myAlgoWallet = new MyAlgoConnect();
-    const algodClient = new algosdk.Algodv2(
-        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "http://localhost",
-        4001,
-    );
     const tumAddress =
-        "YBBY6H7QHRYSAFI47WM7OYO2SSPWOKYVCZRKSZS2XACWYZDOKAK3QSLZWI";
+        "MHRESQQ66SAY7IA524HER46UIDNEP6AFLREBGRJSLLLKZ7DWF6D5QOYYUA";
 
     const [requestDocument] = useRequestDocumentMutation({});
+    const [sign] = useSignMutation({});
+    useEffect(() => {}, [props.documentsList]);
+
     async function signTransaction() {
-        console.log(props.addresses);
+        const mparams = {
+            version: 1,
+            threshold: 2,
+            addrs: [props.addresses[0], tumAddress],
+        };
+        const multsigaddr = algosdk.multisigAddress(mparams);
         try {
+            const algodClient = new algosdk.Algodv2(
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "http://localhost",
+                4001,
+            );
             const params = await algodClient.getTransactionParams().do();
-            console.log({ params });
-            // const txn = algosdk.makePaymentTxnWithSuggestedParams(
-            //     props.addresses[0],
-            //     "MHRESQQ66SAY7IA524HER46UIDNEP6AFLREBGRJSLLLKZ7DWF6D5QOYYUA",
-            //     8,
-            //     undefined,
-            //     new Uint8Array([1, 2, 2, 3, 3, 3]),
-            //     params,
-            // );
+
+            const names = '{"firstName":"Amritanshu", "lastName":"Selic"}';
+            const enc = new TextEncoder();
+            const note = enc.encode(names);
+
             const txn = algosdk.makePaymentTxnWithSuggestedParams(
-                "MHRESQQ66SAY7IA524HER46UIDNEP6AFLREBGRJSLLLKZ7DWF6D5QOYYUA",
                 props.addresses[0],
-                3 * 1000000,
+                tumAddress,
+                3 * 1000,
                 undefined,
-                new Uint8Array([1, 2, 2, 3, 3, 3]),
+                note,
                 params,
             );
-            console.log("works");
-            const signedTxn = await myAlgoWallet.signTransaction(txn.toByte());
-            const response = await algodClient
-                .sendRawTransaction(signedTxn.blob)
-                .do();
-            console.log(response);
-            return signedTxn;
+            const txId = txn.txID().toString();
+
+            const signedTxn = await myAlgoWallet.signTransaction(
+                algosdk.encodeUnsignedTransaction(txn),
+            );
+
+            console.log("test");
+            const res = await sign({
+                variables: {
+                    input: {
+                        txId: txId,
+                        signedTxn: signedTxn.blob.toString(),
+                        address: props.addresses[0],
+                    },
+                },
+            });
+
+            return res.data?.sign;
         } catch (err) {
             console.error(err);
         }
     }
 
     const reqDoc = async () => {
-        const signage = await signTransaction();
-        console.log(signage);
-        // requestDocument({
-        //     variables: {
-        //         input: {
-        //             name: props.id,
-        //             sign: signage,
-        //         },
-        //     },
-        // }).then((res) => {});
+        const docUrl = await signTransaction();
+        console.log(docUrl);
+        const temp = props.documentList;
+        temp.forEach((doc: { id: number; name: string; url: string }) => {
+            if (doc.id === props.id) {
+                if (docUrl) doc.url = docUrl;
+            }
+        });
+        console.log(temp);
+        props.setDocumentList(temp);
     };
     return (
         <IonCard className={"document-container"}>
@@ -138,11 +167,25 @@ const DocumentCard: FC<any> = (props) => {
             )}
             <IonTitle>{props.title}</IonTitle>
             {props.state === "STATE_REQUEST" ? (
-                <IonButton onClick={reqDoc} className={"document-btn"}>
+                <IonButton
+                    onClick={reqDoc}
+                    expand="block"
+                    className={"document-btn"}
+                    fill="outline"
+                >
                     Request Document
                 </IonButton>
             ) : props.state === "STATE_PRIVATE" ? (
-                <IonButton className={"document-btn"}>Mint</IonButton>
+                <IonButton
+                    fill="solid"
+                    expand="block"
+                    className={"document-btn"}
+                    onClick={() => {
+                        window.open(props.url, "_blank", "noopener,noreferrer");
+                    }}
+                >
+                    Read
+                </IonButton>
             ) : (
                 <IonButton className={"document-btn"}>Share</IonButton>
             )}
@@ -160,7 +203,10 @@ const DocumentModal: FC<any> = ({ onDismiss }: { onDismiss: () => void }) => {
             </IonHeader>
             <IonContent>
                 <div className="document-modal-content">
-                    <h4>The selected document is locked. Mint it to unlock.</h4>
+                    <h4>
+                        The selected document is not sharable. Mint it to share
+                        it.
+                    </h4>
                     <div className={"document-modal-container-btn"}>
                         <IonButton
                             onClick={() => onDismiss()}

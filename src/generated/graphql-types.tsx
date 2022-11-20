@@ -39,6 +39,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   fileUpload: Scalars['String'];
   requestDocument: Scalars['String'];
+  sign: Scalars['String'];
 };
 
 
@@ -49,6 +50,11 @@ export type MutationFileUploadArgs = {
 
 export type MutationRequestDocumentArgs = {
   input: RequestDocumentInput;
+};
+
+
+export type MutationSignArgs = {
+  input: SignInput;
 };
 
 export type PrivateDocumentInput = {
@@ -86,6 +92,12 @@ export type RequestDocumentInput = {
   sign: Scalars['String'];
 };
 
+export type SignInput = {
+  address: Scalars['String'];
+  signedTxn: Scalars['String'];
+  txId: Scalars['String'];
+};
+
 export type FileUploadMutationVariables = Exact<{
   input: PrivateDocumentInput;
 }>;
@@ -99,6 +111,13 @@ export type RequestDocumentMutationVariables = Exact<{
 
 
 export type RequestDocumentMutation = { __typename?: 'Mutation', requestDocument: string };
+
+export type SignMutationVariables = Exact<{
+  input: SignInput;
+}>;
+
+
+export type SignMutation = { __typename?: 'Mutation', sign: string };
 
 
 export const FileUploadDocument = gql`
@@ -163,3 +182,34 @@ export function useRequestDocumentMutation(baseOptions?: Apollo.MutationHookOpti
 export type RequestDocumentMutationHookResult = ReturnType<typeof useRequestDocumentMutation>;
 export type RequestDocumentMutationResult = Apollo.MutationResult<RequestDocumentMutation>;
 export type RequestDocumentMutationOptions = Apollo.BaseMutationOptions<RequestDocumentMutation, RequestDocumentMutationVariables>;
+export const SignDocument = gql`
+    mutation sign($input: SignInput!) {
+  sign(input: $input)
+}
+    `;
+export type SignMutationFn = Apollo.MutationFunction<SignMutation, SignMutationVariables>;
+
+/**
+ * __useSignMutation__
+ *
+ * To run a mutation, you first call `useSignMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signMutation, { data, loading, error }] = useSignMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSignMutation(baseOptions?: Apollo.MutationHookOptions<SignMutation, SignMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SignMutation, SignMutationVariables>(SignDocument, options);
+      }
+export type SignMutationHookResult = ReturnType<typeof useSignMutation>;
+export type SignMutationResult = Apollo.MutationResult<SignMutation>;
+export type SignMutationOptions = Apollo.BaseMutationOptions<SignMutation, SignMutationVariables>;

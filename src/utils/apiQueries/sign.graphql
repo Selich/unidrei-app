@@ -1,0 +1,3 @@
+mutation sign($input: SignInput!) {
+    sign(input: $input)
+}

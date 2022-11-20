@@ -78,7 +78,7 @@ export async function createAsset(algodClient: any, alice: any) {
     const defaultFrozen = false;
     const unitName = "ALICEART";
     const assetName = "Alice's Artwork@arc3";
-    const url = "https://s3.amazonaws.com/your-bucket/metadata.json";
+    const url = "";
     const managerAddr = alice.addr; // OPTIONAL: FOR DEMO ONLY, USED TO DESTROY ASSET WITHIN
     const reserveAddr = undefined;
     const freezeAddr = undefined;
