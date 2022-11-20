@@ -83,13 +83,18 @@ export const Documents: FC<DocumentsProps> = () => {
 };
 
 const DocumentCard: FC<any> = (props) => {
+    const [state, setState] = React.useState<
+        "STATE_REQUEST" | "STATE_PRIVATE" | "STATE_MINTED"
+    >(props.state);
+
     const myAlgoWallet = new MyAlgoConnect();
     const tumAddress =
         "MHRESQQ66SAY7IA524HER46UIDNEP6AFLREBGRJSLLLKZ7DWF6D5QOYYUA";
 
     const [requestDocument] = useRequestDocumentMutation({});
     const [sign] = useSignMutation({});
-    useEffect(() => {}, [props.documentsList]);
+
+    useEffect(() => {}, [props.document, props.documentsList]);
 
     async function signTransaction() {
         const mparams = {
@@ -150,14 +155,15 @@ const DocumentCard: FC<any> = (props) => {
                 if (docUrl) doc.url = docUrl;
             }
         });
-        console.log(temp);
+        console.log({ temp });
         props.setDocumentList(temp);
+        setState("STATE_PRIVATE");
     };
     return (
         <IonCard className={"document-container"}>
-            {props.state === "STATE_REQUEST" ? (
+            {state === "STATE_REQUEST" ? (
                 <IonIcon icon={WarningIcon} className={"document-icon"} />
-            ) : props.state === "STATE_PRIVATE" ? (
+            ) : state === "STATE_PRIVATE" ? (
                 <IonIcon
                     icon={ShieldCheckMarkIcon}
                     className={"document-icon"}
@@ -166,7 +172,7 @@ const DocumentCard: FC<any> = (props) => {
                 <IonIcon icon={GlobeIcon} className={"document-icon"} />
             )}
             <IonTitle>{props.title}</IonTitle>
-            {props.state === "STATE_REQUEST" ? (
+            {state === "STATE_REQUEST" ? (
                 <IonButton
                     onClick={reqDoc}
                     expand="block"
@@ -175,7 +181,7 @@ const DocumentCard: FC<any> = (props) => {
                 >
                     Request Document
                 </IonButton>
-            ) : props.state === "STATE_PRIVATE" ? (
+            ) : state === "STATE_PRIVATE" ? (
                 <IonButton
                     fill="solid"
                     expand="block"
