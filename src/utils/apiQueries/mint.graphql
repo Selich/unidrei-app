@@ -1,0 +1,3 @@
+mutation mint($input: MintInput!) {
+    mint(input: $input)
+}
