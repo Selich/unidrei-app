@@ -1,0 +1,11 @@
+.share-tab-qr-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50%;
+}
+
+.share-tab-content {
+    text-align: center;
+    margin: 10px;
+}

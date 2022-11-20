@@ -129,11 +129,13 @@ const DocumentCard: FC<any> = (props) => {
             )}
             <IonTitle>{props.title}</IonTitle>
             {props.state === "STATE_REQUEST" ? (
-                <IonButton onClick={reqDoc}>Request Document</IonButton>
+                <IonButton className={"document-btn"}>
+                    Request Document
+                </IonButton>
             ) : props.state === "STATE_PRIVATE" ? (
-                <IonButton>Mint</IonButton>
+                <IonButton className={"document-btn"}>Mint</IonButton>
             ) : (
-                <IonButton>Share</IonButton>
+                <IonButton className={"document-btn"}>Share</IonButton>
             )}
         </IonCard>
     );
